@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mockapp/view/login_screen.dart';
+import 'package:mockapp/responsive/responsive_login_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +18,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       theme: ThemeData(fontFamily: 'Elza Round Variable'),
       debugShowCheckedModeBanner: false,
-      home: const LoginScreen(), // Add your screen here to test.
+      home: const ResponsiveLoginScreen(), // Add your screen here to test.
     );
   }
 }
