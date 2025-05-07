@@ -1,30 +1,39 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class ResponsiveLayout extends StatelessWidget {
-  final Widget mobile; // For iPhones
-  final Widget tabletPortrait; // For iPad Portrait
-  final Widget tabletLandscape; // For iPad Landscape
+  final Widget mobile;
+  final Widget tabletPortrait;
+  final Widget tabletLandscape;
 
   const ResponsiveLayout({
-    super.key,
+    Key? key,
     required this.mobile,
-    required this.tabletLandscape,
     required this.tabletPortrait,
-  });
+    required this.tabletLandscape,
+  }) : super(key: key);
+
+  bool isTablet(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final diagonal = sqrt(
+      (size.width * size.width) + (size.height * size.height),
+    );
+    return diagonal > 1100; // Treat anything over ~7 inches as tablet
+  }
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (constraints.maxWidth < 600) {
-          // iPhone and smaller devices
-          return mobile;
-        } else if (constraints.maxWidth >= 600 && constraints.maxWidth < 900) {
-          // iPad in Portrait
-          return tabletPortrait;
+        final orientation = MediaQuery.of(context).orientation;
+
+        if (isTablet(context)) {
+          return orientation == Orientation.portrait
+              ? tabletPortrait
+              : tabletLandscape;
         } else {
-          // iPad in Landscape or larger
-          return tabletLandscape;
+          return mobile;
         }
       },
     );

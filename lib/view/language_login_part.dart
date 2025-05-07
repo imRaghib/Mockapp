@@ -1,6 +1,22 @@
 import 'package:flutter/material.dart';
 
-class LoginScreenTab extends StatelessWidget {
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'mDealer Login',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(fontFamily: 'Arial'),
+      home: LoginScreen(),
+    );
+  }
+}
+
+class LoginScreen extends StatelessWidget {
   final List<String> languages = ['English', 'Dutch', 'German', 'Urdu'];
   final List<String> partners = [
     'External-External Auditor',
@@ -20,7 +36,8 @@ class LoginScreenTab extends StatelessWidget {
               fit: StackFit.expand,
               children: [
                 Image.asset(
-                  'assets/images/hiltermanimage.png', // Replace with your image
+                  'assets/images/hiltermann-hiltermann_login_screen_portrait.png',
+                  // Replace with your image
                   fit: BoxFit.cover,
                 ),
                 Container(color: Colors.black.withOpacity(0.4)),
