@@ -4,6 +4,102 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'constants.dart';
 
+class UsernameField extends StatelessWidget {
+  final TextEditingController controller;
+  final Function(String) onChanged;
+
+  const UsernameField({
+    super.key,
+    required this.controller,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: controller,
+      onChanged: onChanged,
+      decoration: const InputDecoration(
+        labelText: 'Enter Username',
+        border: OutlineInputBorder(),
+      ),
+      validator: (value) {
+        if (value == null ||
+            value.isEmpty ||
+            !RegExp(r'^[a-zA-Z0-9_]+\$').hasMatch(value)) {
+          return 'Invalid username';
+        }
+        return null;
+      },
+    );
+  }
+}
+
+// WIDGET: widgets/password_field.dart
+
+class PasswordField extends StatelessWidget {
+  final TextEditingController controller;
+  final Function(String) onChanged;
+
+  const PasswordField({
+    super.key,
+    required this.controller,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: controller,
+      obscureText: true,
+      onChanged: onChanged,
+      decoration: const InputDecoration(
+        labelText: 'Enter Password',
+        border: OutlineInputBorder(),
+        suffixIcon: Icon(Icons.visibility),
+      ),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Password required';
+        }
+        return null;
+      },
+    );
+  }
+}
+
+// WIDGET: widgets/subtenant_dropdown.dart
+
+class SubtenantDropdown extends StatelessWidget {
+  final String? value;
+  final List<String> items;
+  final Function(String?) onChanged;
+
+  const SubtenantDropdown({
+    super.key,
+    required this.value,
+    required this.onChanged,
+    required this.items,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButtonFormField<String>(
+      value: value,
+      onChanged: onChanged,
+      items:
+          items
+              .map((e) => DropdownMenuItem<String>(value: e, child: Text(e)))
+              .toList(),
+      decoration: const InputDecoration(
+        labelText: 'Subtenant',
+        border: OutlineInputBorder(),
+      ),
+      validator: (value) => value == null ? 'Please select a subtenant' : null,
+    );
+  }
+}
+
 class CustomGradientButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
@@ -19,7 +115,6 @@ class CustomGradientButton extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        width: 340,
         height: 36,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),

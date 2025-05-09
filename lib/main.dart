@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:mockapp/features/login/view/login_screen.dart';
+import 'package:mockapp/features/login/viewmodel/login_viewmodel.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => LoginViewModel(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {

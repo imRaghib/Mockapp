@@ -53,17 +53,24 @@ class _LoginTabletLandscapeState extends State<LoginTabletLandscape> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Divider(
-                            color: Colors.white,
-                            thickness: 2,
-                            endIndent: 200,
+                          Container(
+                            width: 150,
+                            height: 5, // Thickness of the divider
+                            margin: const EdgeInsets.symmetric(vertical: 16),
+                            decoration: BoxDecoration(
+                              color: Colors.white, // Divider color
+                              borderRadius: BorderRadius.circular(
+                                12,
+                              ), // Rounded corners
+                            ),
                           ),
-                          SizedBox(height: 16),
+
                           Text(
                             'Your partner for\nleasing and financing',
                             style: TextStyle(
+                              fontFamily: 'DM Serif Display',
                               color: Colors.white,
-                              fontSize: 28,
+                              fontSize: 48,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -93,22 +100,25 @@ class _LoginTabletLandscapeState extends State<LoginTabletLandscape> {
                           ),
                         ),
                         SizedBox(height: 60),
-                        Text(
-                          'Welcome to ',
-                          style: TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
                         RichText(
                           text: TextSpan(
-                            text: 'mDealer',
-                            style: TextStyle(
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.teal,
-                            ),
-                            children: [],
+                            style: TextStyle(fontSize: 28),
+                            children: [
+                              TextSpan(
+                                text: 'Welcome to ',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              TextSpan(
+                                text: 'mDealer',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.teal,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         SizedBox(height: 10),
@@ -209,90 +219,13 @@ class _LoginTabletLandscapeState extends State<LoginTabletLandscape> {
                                 ),
                               ),
                             ),
+                            CustomGradientButton(
+                              text: 'Login',
+                              onPressed: () {},
+                            ),
                             buildFaceId(),
                           ],
                         ),
-                        // Language Dropdown
-                        // Text('Language'),
-                        // SizedBox(height: 5),
-                        // DropdownButtonFormField<String>(
-                        //   items:
-                        //       languages
-                        //           .map(
-                        //             (lang) => DropdownMenuItem(
-                        //               value: lang,
-                        //               child: Text(lang),
-                        //             ),
-                        //           )
-                        //           .toList(),
-                        //   onChanged: (value) {},
-                        //   decoration: InputDecoration(
-                        //     border: OutlineInputBorder(),
-                        //     contentPadding: EdgeInsets.symmetric(
-                        //       horizontal: 12,
-                        //       vertical: 12,
-                        //     ),
-                        //   ),
-                        // ),
-                        // SizedBox(height: 20),
-                        //
-                        // // Business Partner Dropdown
-                        // Text('Business Partner'),
-                        // SizedBox(height: 5),
-                        // DropdownButtonFormField<String>(
-                        //   items:
-                        //       partners
-                        //           .map(
-                        //             (partner) => DropdownMenuItem(
-                        //               value: partner,
-                        //               child: Text(partner),
-                        //             ),
-                        //           )
-                        //           .toList(),
-                        //   onChanged: (value) {},
-                        //   decoration: InputDecoration(
-                        //     border: OutlineInputBorder(),
-                        //     contentPadding: EdgeInsets.symmetric(
-                        //       horizontal: 12,
-                        //       vertical: 12,
-                        //     ),
-                        //   ),
-                        // ),
-                        // SizedBox(height: 30),
-
-                        // Continue Button
-                        SizedBox(
-                          width: double.infinity,
-                          height: 50,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.zero,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                            ),
-                            onPressed: () {},
-                            child: Ink(
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [Colors.green, Colors.teal],
-                                ),
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: Container(
-                                alignment: Alignment.center,
-                                child: Text(
-                                  'CONTINUE',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 40),
 
                         // Footer
                         Row(
