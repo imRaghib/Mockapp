@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'custom_bottom_nav_bar.dart'; // Make sure this file exists in the same directory or adjust path
-
+import '../view/live_clock.dart'; // Import the LiveClock widget
+import 'custom_bottom_nav_bar.dart'; // Your shared bottom nav widget
 void main() {
   runApp(const MyApp());
 }
@@ -11,20 +11,34 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'VIN/VRM Entry',
       debugShowCheckedModeBanner: false,
+      title: 'Vin VRM Entry',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
       home: const VinVrmEntryScreen(),
     );
   }
 }
-
-class VinVrmEntryScreen extends StatelessWidget {
+class VinVrmEntryScreen extends StatefulWidget {
   const VinVrmEntryScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final TextEditingController vinController = TextEditingController();
+  State<VinVrmEntryScreen> createState() => _VinVrmEntryScreenState();
+}
 
+class _VinVrmEntryScreenState extends State<VinVrmEntryScreen> {
+  final TextEditingController vinController = TextEditingController();
+
+  @override
+  void dispose() {
+    vinController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFEAF1FC),
       bottomNavigationBar: const CustomBottomNavigationBar(currentIndex: 1),
@@ -61,16 +75,13 @@ class VinVrmEntryScreen extends StatelessWidget {
                   ),
                   Row(
                     children: const [
-                      Text(
-                        '09-12-2025 03:11 PM',
-                        style: TextStyle(fontSize: 12, color: Colors.black54),
-                      ),
+                      LiveClock(), // Reusable live clock widget
                       SizedBox(width: 12),
                       Icon(Icons.notifications_none),
                       SizedBox(width: 12),
                       CircleAvatar(radius: 16, backgroundColor: Colors.grey),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
@@ -132,8 +143,7 @@ class VinVrmEntryScreen extends StatelessWidget {
                             ),
                             child: IconButton(
                               icon: const Icon(Icons.qr_code_scanner, color: Colors.white),
-                              onPressed: () async {
-                                // Placeholder for scanner logic
+                              onPressed: () {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(content: Text("Scan button pressed")),
                                 );
@@ -160,7 +170,6 @@ class VinVrmEntryScreen extends StatelessWidget {
                                 const SnackBar(content: Text("Please enter a VIN/VRM")),
                               );
                             } else {
-                              // Replace with actual search logic or ViewModel call
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text("Searching for: $vin")),
                               );
