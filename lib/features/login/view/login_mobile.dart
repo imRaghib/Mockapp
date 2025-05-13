@@ -1,29 +1,18 @@
-//Mobile layout
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:mockapp/features/login/view/widgets/constants.dart';
 import 'package:mockapp/features/login/view/widgets/login_form.dart';
+import 'package:mockapp/res/components/loginForm.dart';
+import 'package:provider/provider.dart';
+import '../../../res/colors.dart';
+import '../../../res/components/CustomGradientButton.dart';
+import '../../../res/components/login_face_Id.dart';
+import '../viewmodel/login_form_viewmodel.dart';
 
-const subtenantList = ['', ''];
-
-class LoginMobile extends StatefulWidget {
+class LoginMobile extends StatelessWidget {
   const LoginMobile({super.key});
 
   @override
-  State<LoginMobile> createState() => _LoginMobileState();
-}
-
-class _LoginMobileState extends State<LoginMobile> {
-  @override
   Widget build(BuildContext context) {
-    final inputColor = Color(0xFF82899B);
-    final borderStyle = OutlineInputBorder(
-      borderSide: BorderSide(color: inputColor),
-    );
-
-    String? selectedOption;
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
@@ -55,94 +44,21 @@ class _LoginMobileState extends State<LoginMobile> {
                   'Please enter your details',
                   style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 16),
-                  child: TextField(
-                    cursorColor: inputColor,
-                    style: TextStyle(color: inputColor),
-                    decoration: InputDecoration(
-                      labelText: 'Enter Username',
-                      labelStyle: TextStyle(color: inputColor),
-                      enabledBorder: borderStyle,
-                      focusedBorder: borderStyle,
-                      border: borderStyle,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 16),
-                  child: TextField(
-                    cursorColor: inputColor,
-                    style: TextStyle(color: inputColor),
-                    decoration: InputDecoration(
-                      labelText: 'Enter Password',
-                      labelStyle: TextStyle(color: inputColor),
-                      enabledBorder: borderStyle,
-                      focusedBorder: borderStyle,
-                      border: borderStyle,
-                      suffixIcon: Icon(Icons.remove_red_eye, color: inputColor),
-                    ),
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 14.0),
-                      child: Text(
-                        'Forgot Password?',
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                          color: limeGreenColor,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 24),
-                  child: DropdownButtonFormField<String>(
-                    value: selectedOption,
-                    onChanged: (value) {
-                      selectedOption = value;
-                      // Call setState() if this is in a StatefulWidget
-                    },
-                    items:
-                        subtenantList
-                            .map(
-                              (option) => DropdownMenuItem(
-                                value: option,
-                                child: Text(
-                                  option,
-                                  style: TextStyle(color: inputColor),
-                                ),
-                              ),
-                            )
-                            .toList(),
-                    decoration: InputDecoration(
-                      labelText: 'Subtenant',
-                      labelStyle: TextStyle(color: inputColor),
-                      enabledBorder: borderStyle,
-                      focusedBorder: borderStyle,
-                      border: borderStyle,
-                    ),
-                    icon: Icon(Icons.arrow_drop_down, color: inputColor),
-                    style: TextStyle(color: inputColor),
-                    dropdownColor: Colors.white,
-                    hint: Text(
-                      'Please select',
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  ),
-                ),
-                buildFaceId(),
+                LoginForm(),
+                FaceIdWidget(),
               ],
             ),
             Column(
               children: [
-                buildButton(context: context, buttonName: 'Login'),
+                CustomGradientButton(
+                  text: "Login",
+                  onPressed: () {
+                    Provider.of<LoginFormProvider>(
+                      context,
+                      listen: false,
+                    ).handleLogin(context);
+                  },
+                ),
                 buildFooter(),
               ],
             ),
@@ -151,4 +67,41 @@ class _LoginMobileState extends State<LoginMobile> {
       ),
     );
   }
+}
+
+Column buildFooter() {
+  return Column(
+    children: [
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20),
+        child: Divider(
+          color: Color.fromRGBO(244, 245, 246, 1), // Line color
+          thickness: 1, // Line thickness
+          // Space from the right
+        ),
+      ),
+      Text(
+        'Hiltermann',
+        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+      ),
+      Text('Copyright @ 2025.All Rights Reserved'),
+      Padding(
+        padding: const EdgeInsets.only(top: 16.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Privacy Policy Terms & Condition',
+              style: TextStyle(
+                color: limeGreenColor,
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text('Version 8.24.1545'),
+          ],
+        ),
+      ),
+    ],
+  );
 }

@@ -1,4 +1,3 @@
-
 import 'dart:io';
 import 'dart:math';
 import 'package:camera/camera.dart';
@@ -28,20 +27,17 @@ class _ScanNumberScreenState extends State<ScanNumberScreen> {
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
 
-  // Rectangle state
   double top = 200, left = 50, width = 300, height = 120;
   double minWidth = 100, minHeight = 50;
 
-  // Text controller for recognized number plate text
   final TextEditingController _textController = TextEditingController();
-
   final TextRecognizer _textRecognizer =
   TextRecognizer(script: TextRecognitionScript.latin);
-// as textRecognitionScript.values wont accept the alphabets in the number plate.
+
   @override
   void initState() {
     super.initState();
-    _controller = CameraController(widget.camera, ResolutionPreset.high);//for clear pictures.
+    _controller = CameraController(widget.camera, ResolutionPreset.high);
     _initializeControllerFuture = _controller.initialize();
   }
 
@@ -108,13 +104,10 @@ class _ScanNumberScreenState extends State<ScanNumberScreen> {
       final XFile file = await _controller.takePicture();
       final bytes = await file.readAsBytes();
 
-      // Decode image using 'image' package
       img.Image? capturedImage = img.decodeImage(bytes);
       if (capturedImage == null) return;
 
-      // Calculate crop area in image coordinates
       final previewSize = _controller.value.previewSize!;
-      // Note: CameraPreview is rotated 90 degrees, so width/height swapped
       double scaleX = capturedImage.width / previewSize.height;
       double scaleY = capturedImage.height / previewSize.width;
 
@@ -123,30 +116,30 @@ class _ScanNumberScreenState extends State<ScanNumberScreen> {
       int cropWidth = (height * scaleX).toInt();
       int cropHeight = (width * scaleY).toInt();
 
-      // Crop the image
-      img.Image cropped = img.copyCrop(
+      cropWidth = min(cropWidth, capturedImage.width - cropLeft);
+      cropHeight = min(cropHeight, capturedImage.height - cropTop);
+
+      img.Image croppedImage = img.copyCrop(
         capturedImage,
         x: cropLeft,
         y: cropTop,
-        width: min(cropWidth, capturedImage.width - cropLeft),
-        height: min(cropHeight, capturedImage.height - cropTop),
+        width: cropWidth,
+        height: cropHeight,
       );
 
-      // Save cropped image temporarily
       final directory = await getTemporaryDirectory();
       final croppedPath = '${directory.path}/cropped_plate.png';
       final croppedFile = File(croppedPath);
-      await croppedFile.writeAsBytes(img.encodePng(cropped));
+      await croppedFile.writeAsBytes(img.encodePng(croppedImage));
 
-      // Run OCR on cropped image
       final recognizedText = await _performTextRecognition(croppedFile);
 
-      // Update text field with recognized text
-      setState(() {
-        _textController.text = recognizedText;
-      });
+      if (mounted) {
+        setState(() {
+          _textController.text = recognizedText;
+        });
+      }
 
-      // Optionally show cropped image dialog
       showDialog(
         context: context,
         builder: (_) => AlertDialog(
@@ -163,7 +156,7 @@ class _ScanNumberScreenState extends State<ScanNumberScreen> {
     } catch (e) {
       print('Error capturing or recognizing text: $e');
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to capture or recognize text')),
+        const SnackBar(content: Text('Failed to capture or recognize text')),
       );
     }
   }
@@ -172,10 +165,7 @@ class _ScanNumberScreenState extends State<ScanNumberScreen> {
     final inputImage = InputImage.fromFile(imageFile);
     final RecognizedText recognizedText =
     await _textRecognizer.processImage(inputImage);
-
-    // Combine all recognized text blocks into one string
-    String text = recognizedText.text;
-    return text;
+    return recognizedText.text;
   }
 
   Widget _buildResizableRect() {
@@ -194,7 +184,6 @@ class _ScanNumberScreenState extends State<ScanNumberScreen> {
                 color: Colors.transparent,
               ),
             ),
-            // Corner handles
             ...[
               Alignment.topLeft,
               Alignment.topRight,
@@ -286,8 +275,6 @@ class _ScanNumberScreenState extends State<ScanNumberScreen> {
                 },
               ),
             ),
-
-            // TextField to show recognized number plate text
             Expanded(
               flex: 2,
               child: Container(
