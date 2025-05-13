@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mockapp/features/login/view/login_forget_screen.dart';
 import 'package:provider/provider.dart';
 import '../../features/login/viewmodel/login_form_viewmodel.dart';
 import '../colors.dart';
@@ -49,14 +50,22 @@ class LoginForm extends StatelessWidget {
                     value == null || value.isEmpty ? 'Password required' : null,
           ),
           const SizedBox(height: 16),
-          const Align(
+          Align(
             alignment: Alignment.centerRight,
-            child: Text(
-              'Forgot Password?',
-              style: TextStyle(
-                color: limeGreenColor,
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginForgetScreen()),
+                );
+              },
+              child: Text(
+                'Forgot Password?',
+                style: TextStyle(
+                  color: limeGreenColor,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),

@@ -4,19 +4,21 @@ import '../colors.dart';
 class CustomGradientButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
+  final double height;
 
   const CustomGradientButton({
-    Key? key,
+    super.key,
     required this.text,
     required this.onPressed,
-  }) : super(key: key);
+    this.height = 45,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        height: 36,
+        height: height,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           gradient: LinearGradient(

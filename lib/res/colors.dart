@@ -9,3 +9,5 @@ final textFieldColor = Color(0xFF82899B);
 final textFieldBorderStyle = OutlineInputBorder(
   borderSide: BorderSide(color: textFieldColor),
 );
+const Color appGreenColor = Color(0xFF1EAC67);
+const backgroundColor = Colors.white;
