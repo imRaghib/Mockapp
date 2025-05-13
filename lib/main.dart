@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mockapp/features/login/view/login_screen.dart';
+import 'package:mockapp/features/onboarding/view/onboarding_screen.dart';
 import 'package:provider/provider.dart';
 import 'features/login/viewmodel/login_form_viewmodel.dart';
 
@@ -22,7 +23,7 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         theme: ThemeData(fontFamily: 'Elza Round Variable'),
         debugShowCheckedModeBanner: false,
-        home: LoginScreen(), // Add your screen here to test.
+        home: OnboardingScreen(), // Add your screen here to test.
       ),
     );
   }
