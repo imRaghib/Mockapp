@@ -2,39 +2,63 @@ import 'package:flutter/material.dart';
 import '../colors.dart';
 
 class CustomGradientButton extends StatelessWidget {
-  final String text;
+  final String? title;
   final VoidCallback onPressed;
   final double height;
+  final double? width;
+  final bool isActive;
+  final bool isScanButton;
+  final IconData? prefixIcon;
+  final IconData? suffixIcon;
+  final Color foregroundColor;
 
   const CustomGradientButton({
     super.key,
-    required this.text,
+    this.title,
     required this.onPressed,
-    this.height = 45,
+    this.height = 50,
+    this.width,
+    this.isActive = true,
+    this.isScanButton = false,
+    this.prefixIcon,
+    this.suffixIcon,
+    this.foregroundColor = Colors.white,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onPressed,
+      onTap: isActive ? onPressed : null,
       child: Container(
         height: height,
+        width: width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           gradient: LinearGradient(
-            colors: buttonGradient,
+            colors: isActive ? buttonGradient : disableButtonGradient,
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
           ),
         ),
         alignment: Alignment.center,
-        child: Text(
-          text,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (prefixIcon != null) Icon(prefixIcon, color: foregroundColor),
+            if (title != null)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Text(
+                  title!,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            if (suffixIcon != null) Icon(suffixIcon, color: foregroundColor),
+          ],
         ),
       ),
     );

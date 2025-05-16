@@ -107,9 +107,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             // Corresponds to 19.58% and 44.44% in CSS
                             begin: Alignment.topCenter,
                             // Gradient starts from the top
-                            end:
-                                Alignment
-                                    .bottomCenter, // Gradient ends at the bottom
+                            end: Alignment
+                                .bottomCenter, // Gradient ends at the bottom
                           ),
                         ),
                       ),
@@ -178,7 +177,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
                     child: CustomGradientButton(
-                      text: 'Get Started',
+                      title: 'Get Started',
                       onPressed: () {
                         Navigator.pop(context);
                         Navigator.push(

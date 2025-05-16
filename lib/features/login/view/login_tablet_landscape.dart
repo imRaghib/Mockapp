@@ -53,7 +53,6 @@ class _LoginTabletLandscapeState extends State<LoginTabletLandscape> {
                                 ), // Rounded corners
                               ),
                             ),
-
                             Text(
                               'Your partner for\nleasing and financing',
                               style: TextStyle(
@@ -119,7 +118,7 @@ class _LoginTabletLandscapeState extends State<LoginTabletLandscape> {
                           LoginForm(),
                           const SizedBox(height: 24),
                           CustomGradientButton(
-                            text: "Login",
+                            title: "Login",
                             onPressed: () {
                               Provider.of<LoginFormProvider>(
                                 context,

@@ -39,7 +39,7 @@ class LoginMobile extends StatelessWidget {
             Column(
               children: [
                 CustomGradientButton(
-                  text: "Login",
+                  title: "Login",
                   onPressed: () {
                     Provider.of<LoginFormProvider>(
                       context,

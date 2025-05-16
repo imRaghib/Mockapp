@@ -33,11 +33,11 @@ class LoginForgetScreen extends StatelessWidget {
                 TextFormField(
                   //   controller: null,
                   // have to implement it later
-                  cursorColor: textFieldColor,
-                  style: TextStyle(color: textFieldColor),
+                  cursorColor: kGreyColor,
+                  style: TextStyle(color: kGreyColor),
                   decoration: InputDecoration(
                     labelText: 'Enter Username',
-                    labelStyle: TextStyle(color: textFieldColor),
+                    labelStyle: TextStyle(color: kGreyColor),
                     enabledBorder: textFieldBorderStyle,
                     focusedBorder: textFieldBorderStyle,
                     border: textFieldBorderStyle,
@@ -70,7 +70,7 @@ class LoginForgetScreen extends StatelessWidget {
             Column(
               children: [
                 CustomGradientButton(
-                  text: "Send",
+                  title: "Send",
                   onPressed: () {
                     showModalBottomSheet(
                       context: context,
@@ -143,7 +143,6 @@ class _GifSuccessBottomSheetState extends State<_GifSuccessBottomSheet>
                 image: AssetImage('lib/assets/videos/loading.gif'),
               ),
             ),
-
             Text(
               'Success!',
               style: TextStyle(
@@ -160,7 +159,7 @@ class _GifSuccessBottomSheetState extends State<_GifSuccessBottomSheet>
             ),
             const SizedBox(height: 20),
             CustomGradientButton(
-              text: 'Go to Login Page ',
+              title: 'Go to Login Page ',
               onPressed: () {
                 Navigator.pop(context);
                 Navigator.push(
