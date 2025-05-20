@@ -67,7 +67,7 @@ class StockListViewModel extends ChangeNotifier {
       kenteken: '120',
     ),
     StockItem(
-      loanRefNo: '96700000008',
+      loanRefNo: '96700000908',
       condition: 'Unregistered',
       status: 'New',
       maturityDate: '22-04-2024',
@@ -75,7 +75,7 @@ class StockListViewModel extends ChangeNotifier {
       kenteken: 'HK051AB',
     ),
     StockItem(
-      loanRefNo: '96700000008',
+      loanRefNo: '96700800008',
       condition: 'Unregistered',
       status: 'New',
       maturityDate: '22-04-2024',
@@ -83,7 +83,15 @@ class StockListViewModel extends ChangeNotifier {
       kenteken: 'HK051AB',
     ),
     StockItem(
-      loanRefNo: '96700000008',
+      loanRefNo: '9988776655',
+      condition: 'Unregistered',
+      status: 'New',
+      maturityDate: '14/5/25',
+      vinNo: 'NSTAHS0002',
+      kenteken: 'HB051AB',
+    ),
+    StockItem(
+      loanRefNo: '96700000098',
       condition: 'Registered',
       status: 'Sold Out',
       maturityDate: '22-04-2024',
@@ -91,7 +99,7 @@ class StockListViewModel extends ChangeNotifier {
       kenteken: 'HK051AB',
     ),
     StockItem(
-      loanRefNo: '96700000008',
+      loanRefNo: '96700060008',
       condition: 'Unregistered',
       status: 'New',
       maturityDate: '22-04-2024',
@@ -99,7 +107,7 @@ class StockListViewModel extends ChangeNotifier {
       kenteken: 'HK051AB',
     ),
     StockItem(
-      loanRefNo: '96700000008',
+      loanRefNo: '96700020008',
       condition: 'Registered',
       status: 'New',
       maturityDate: '22-04-2024',
@@ -107,13 +115,14 @@ class StockListViewModel extends ChangeNotifier {
       kenteken: 'HK051AB',
     ),
     StockItem(
-      loanRefNo: '96700000008',
+      loanRefNo: '96700000001',
       condition: 'Unregistered',
       status: 'New',
       maturityDate: '22-04-2024',
       vinNo: 'NSTAHS0002',
       kenteken: 'HK051AB',
     ),
+
   ];
 
   List<StockItem> get items => _items;

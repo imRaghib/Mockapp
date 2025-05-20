@@ -428,7 +428,7 @@ import 'package:provider/provider.dart';
 import 'title_bar.dart';
 import 'custom_bottom_nav_bar.dart';
 
-/// Entry point of the app.
+/// Entry point of the screen.
 /// Sets up state management and launches the main app widget.
 void main() {
   runApp(
@@ -450,7 +450,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Hiltermann mDealer',
+      title: 'H    Hiltermann mDealer',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.teal,

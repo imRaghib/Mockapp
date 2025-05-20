@@ -142,7 +142,7 @@ class TitleBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: Row(
         children: const [
-          Text('H I L T E R M A N N'),
+          Text('H   H I L T E R M A N N'),
           SizedBox(width: 8),
           Text(
             'mDealer',

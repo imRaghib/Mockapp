@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
-import '../view/live_clock.dart'; // Import the LiveClock widget
-import 'custom_bottom_nav_bar.dart'; // Your shared bottom nav widget
+import 'package:provider/provider.dart';
+import 'title_bar.dart'; // Importing TitleBar widget
+import 'custom_bottom_nav_bar.dart'; // custom widget for bottom navigation
+
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => VINViewModel()), // VINViewModel
+        ChangeNotifierProvider(create: (_) => NotificationViewModel()), // NotificationViewModel
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -11,184 +21,110 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'VIN/VRM Entry',
       debugShowCheckedModeBanner: false,
-      title: 'Vin VRM Entry',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: const VinVrmEntryScreen(),
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: const VINScreen(),
     );
   }
 }
-class VinVrmEntryScreen extends StatefulWidget {
-  const VinVrmEntryScreen({super.key});
+
+class VINScreen extends StatefulWidget {
+  const VINScreen({super.key});
 
   @override
-  State<VinVrmEntryScreen> createState() => _VinVrmEntryScreenState();
+  State<VINScreen> createState() => _VINScreenState();
 }
 
-class _VinVrmEntryScreenState extends State<VinVrmEntryScreen> {
-  final TextEditingController vinController = TextEditingController();
+class _VINScreenState extends State<VINScreen> {
+  final TextEditingController _vinController = TextEditingController();
+  int _selectedIndex = 0;
 
-  @override
-  void dispose() {
-    vinController.dispose();
-    super.dispose();
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  void _onScanPressed() {
+    // Handle scan logic here (e.g., open camera)
+    // For now, just show a message
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Scan button pressed.')),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    // Access the VINViewModel using Provider
+    final vinViewModel = Provider.of<VINViewModel>(context);
+
     return Scaffold(
-      backgroundColor: const Color(0xFFEAF1FC),
-      bottomNavigationBar: const CustomBottomNavigationBar(currentIndex: 1),
-      body: SafeArea(
+      appBar: const TitleBar(), // TitleBar widget is already imported and used here
+      body: Padding(
+        padding: const EdgeInsets.all(16),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Top Bar
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: const [
-                      Icon(Icons.circle, size: 30, color: Colors.grey),
-                      SizedBox(width: 8),
-                      Text(
-                        'HILTERMANN',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.2,
-                        ),
-                      ),
-                      Text(
-                        ' mDealer',
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.teal,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: const [
-                      LiveClock(), // Reusable live clock widget
-                      SizedBox(width: 12),
-                      Icon(Icons.notifications_none),
-                      SizedBox(width: 12),
-                      CircleAvatar(radius: 16, backgroundColor: Colors.grey),
-                    ],
-                  ),
-                ],
+            const SizedBox(height: 20),
+            const Text(
+              'Enter VIN/VRM Number',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: _vinController,
+              decoration: const InputDecoration(
+                labelText: 'VIN/VRM Number',
+                border: OutlineInputBorder(),
               ),
             ),
-
-            // Center Box
-            Expanded(
-              child: Center(
-                child: Container(
-                  width: 500,
-                  padding: const EdgeInsets.all(24),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Text(
-                        "Enter VIN/VRM Number",
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      const Text(
-                        "Please enter VRM (Vehicle Registration Mark) or\n"
-                            "VIN (Vehicle Identification Number) you can scan with\nscan option.",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.black54, fontSize: 14),
-                      ),
-                      const SizedBox(height: 24),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: TextField(
-                              controller: vinController,
-                              decoration: InputDecoration(
-                                hintText: 'VIN / Plate Number',
-                                filled: true,
-                                fillColor: Colors.white,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: const BorderSide(color: Colors.grey),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              gradient: const LinearGradient(
-                                colors: [Color(0xFF2FB978), Color(0xFF01B4E4)],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              ),
-                            ),
-                            child: IconButton(
-                              icon: const Icon(Icons.qr_code_scanner, color: Colors.white),
-                              onPressed: () {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text("Scan button pressed")),
-                                );
-                              },
-                            ),
-                          )
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: 14),
-                            backgroundColor: const Color(0xFF01B4E4),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                          onPressed: () {
-                            final vin = vinController.text.trim();
-                            if (vin.isEmpty) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text("Please enter a VIN/VRM")),
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text("Searching for: $vin")),
-                              );
-                            }
-                          },
-                          child: const Text(
-                            'Search Vehicle',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _onScanPressed, // Trigger scan logic here
+              child: const Text('Scan VIN/VRM'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                // Handle VIN submission logic
+                String vin = _vinController.text;
+                if (vin.isNotEmpty) {
+                  // Update the ViewModel's VIN value
+                  vinViewModel.setVIN(vin); // This updates the ViewModel state
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('VIN/VRM Entered: $vin')),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Please enter a VIN/VRM number.')),
+                  );
+                }
+              },
+              child: const Text('Submit VIN/VRM'),
+            ),
+            const SizedBox(height: 20),
+            Text('Entered VIN: ${vinViewModel.vin}', // Display the entered VIN
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ],
         ),
       ),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+      ),
     );
+  }
+}
+
+class VINViewModel extends ChangeNotifier {
+  String _vin = '';
+
+  String get vin => _vin;
+
+  void setVIN(String vin) {
+    _vin = vin;
+    notifyListeners(); // Notify listeners to update UI
   }
 }
