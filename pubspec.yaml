@@ -37,6 +37,9 @@ dependencies:
   path_provider: ^2.1.2
   crop_your_image: ^0.7.3
   flutter_svg: ^2.1.0
+  http: ^1.4.0
+  animated_splash_screen: ^1.3.0
+  #  flutter_native_splash: ^2.4.6
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -70,6 +73,7 @@ flutter:
   assets:
     - lib/assets/images/
     - lib/assets/icons/
+    - lib/assets/videos/
 
   fonts:
     - family: DM Serif Display
