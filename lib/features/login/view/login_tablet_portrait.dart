@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mockapp/features/login/view/widgets/login_form.dart';
+import 'package:mockapp/features/login/view/login_mobile.dart';
 import 'package:mockapp/res/components/CustomGradientButton.dart';
 import 'package:provider/provider.dart';
 import '../../../res/components/loginForm.dart';
@@ -35,10 +35,7 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
                   children: [
                     Column(
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 30),
-                          child: buildWelcomeText(text: 'Welcome Back'),
-                        ),
+                        BuildBoldText(text: 'Welcome Back'),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: const Text(
@@ -53,7 +50,7 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
                         LoginForm(),
                         const SizedBox(height: 24),
                         CustomGradientButton(
-                          text: "Login",
+                          title: "Login",
                           onPressed: () {
                             Provider.of<LoginFormProvider>(
                               context,

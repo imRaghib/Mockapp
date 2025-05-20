@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:mockapp/features/login/view/widgets/login_form.dart';
 import 'package:mockapp/res/components/loginForm.dart';
+import 'package:mockapp/res/components/login_screen_logo.dart';
+import 'package:mockapp/res/components/login_secondary_text.dart';
 import 'package:provider/provider.dart';
 import '../../../res/colors.dart';
 import '../../../res/components/CustomGradientButton.dart';
@@ -27,23 +28,10 @@ class LoginMobile extends StatelessWidget {
           children: [
             Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 0),
-                  child: SvgPicture.asset(
-                    'lib/assets/icons/logo.svg',
-                    semanticsLabel: 'Logo',
-                    height: 92,
-                    width: 92,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 30),
-                  child: buildWelcomeText(text: 'Welcome Back'),
-                ),
-                Text(
-                  'Please enter your details',
-                  style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16),
-                ),
+                LogoWidget(height: null),
+                BuildBoldText(text: 'Welcome Back'),
+                SecondaryText(),
+                SizedBox(height: 20),
                 LoginForm(),
                 FaceIdWidget(),
               ],
@@ -51,7 +39,7 @@ class LoginMobile extends StatelessWidget {
             Column(
               children: [
                 CustomGradientButton(
-                  text: "Login",
+                  title: "Login",
                   onPressed: () {
                     Provider.of<LoginFormProvider>(
                       context,
@@ -104,4 +92,18 @@ Column buildFooter() {
       ),
     ],
   );
+}
+
+class BuildBoldText extends StatelessWidget {
+  final String text;
+
+  const BuildBoldText({super.key, required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 30),
+      child: buildWelcomeText(text: text),
+    );
+  }
 }
