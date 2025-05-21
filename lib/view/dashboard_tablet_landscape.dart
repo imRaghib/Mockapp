@@ -430,17 +430,17 @@ import 'custom_bottom_nav_bar.dart';
 
 /// Entry point of the screen.
 /// Sets up state management and launches the main app widget.
-void main() {
-  runApp(
-    MultiProvider(
-      providers: [
-        // Provides notification state throughout the app.
-        ChangeNotifierProvider(create: (_) => NotificationViewModel()),
-      ],
-      child: const MyApp(),
-    ),
-  );
-}
+// void main() {
+//   runApp(
+//     MultiProvider(
+//       providers: [
+//         // Provides notification state throughout the app.
+//         ChangeNotifierProvider(create: (_) => NotificationViewModel()),
+//       ],
+//       child: const MyApp(),
+//     ),
+//   );
+// }
 
 /// Root widget of the app.
 /// Sets theme, routes, and home screen.
@@ -601,12 +601,14 @@ class LimitTile extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         // Label describing the limit type.
-        Text(label, style: const TextStyle(fontSize: 13, color: Colors.black87)),
+        Text(label,
+            style: const TextStyle(fontSize: 13, color: Colors.black87)),
         const SizedBox(height: 4),
         // Numeric value of the limit.
         Text(
           value,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black),
+          style: const TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black),
         ),
       ],
     );

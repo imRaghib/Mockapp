@@ -4,6 +4,7 @@ import '../../../res/components/customGradientButton.dart';
 import '../../../res/components/loginForm.dart';
 import '../../../res/components/login_face_Id.dart';
 import '../../../res/components/login_tab_footer.dart';
+import '../../../utils/routes/routes_names.dart';
 import '../viewmodel/login_form_viewmodel.dart';
 
 class LoginTabletLandscape extends StatefulWidget {
@@ -124,6 +125,12 @@ class _LoginTabletLandscapeState extends State<LoginTabletLandscape> {
                                 context,
                                 listen: false,
                               ).handleLogin(context);
+                              Navigator.pushNamedAndRemoveUntil(
+                                context,
+                                RoutesNames.dashboard,
+                                // It removes all routes below the new one (effectively clearing the stack).
+                                (route) => false,
+                              );
                             },
                           ),
                           Row(

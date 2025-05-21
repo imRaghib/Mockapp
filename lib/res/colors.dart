@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-class LoginPageColors {}
-
 const Color fontColor = Color.fromRGBO(28, 35, 53, 1);
 const Color limeGreenColor = Color.fromRGBO(8, 177, 162, 1);
 const List<Color> buttonGradient = [Color(0xFF4FC71A), Color(0xFF07A5CB)];
@@ -15,3 +13,12 @@ final textFieldBorderStyle = OutlineInputBorder(
 );
 const Color appGreenColor = Color(0xFF1EAC67);
 const backgroundColor = Colors.white;
+
+class AppColors {
+  // Global App
+
+  // Dashboard Screen
+  static const Color approvedLimitCircle = Color(0x2427AE60);
+  static const Color utilizedLimitCircle = Color(0x29FA7D00);
+  static const Color availableLimitCircle = Color(0x2956C9FA);
+}
