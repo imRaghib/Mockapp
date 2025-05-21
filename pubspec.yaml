@@ -81,6 +81,15 @@ flutter:
       fonts:
         - asset: lib/assets/fonts/DMSerifDisplay-Regular.ttf
           weight: 400
-    - family: Elza Round Variable
+    - family: Elza
+      fonts:
+        - asset: lib/assets/fonts/Elza.otf
+        - asset: lib/assets/fonts/Elza_Bold.otf
+          weight: 700
+    - family: Elza round variable
       fonts:
         - asset: lib/assets/fonts/elza-round-variable-light.otf
+    - family: OpenSans
+      fonts:
+        - asset: lib/assets/fonts/OpenSans-SemiBold.ttf
+          weight: 600

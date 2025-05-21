@@ -16,9 +16,13 @@ const backgroundColor = Colors.white;
 
 class AppColors {
   // Global App
+  static const Color backgroundColor = Colors.white;
 
   // Dashboard Screen
   static const Color approvedLimitCircle = Color(0x2427AE60);
   static const Color utilizedLimitCircle = Color(0x29FA7D00);
   static const Color availableLimitCircle = Color(0x2956C9FA);
+
+  static const Color textColor = Color(0xFF697380);
+  static const Color cardColor = Colors.white;
 }
