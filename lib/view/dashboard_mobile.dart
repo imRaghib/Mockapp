@@ -4,7 +4,9 @@ import 'package:mockapp/res/colors.dart';
 import 'package:mockapp/res/font_family.dart';
 import 'package:mockapp/res/svg_icons.dart';
 import 'package:mockapp/utils/format_utils.dart';
+import 'package:provider/provider.dart';
 import '../res/default_padding.dart';
+import '../view model/dashboard_viewmodel.dart';
 
 class DashboardMobile extends StatefulWidget {
   const DashboardMobile({super.key});
@@ -22,53 +24,20 @@ class _DashboardMobileState extends State<DashboardMobile> {
 
   @override
   Widget build(BuildContext context) {
+    final dashboardProvider = Provider.of<DashboardProvider>(context);
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-      appBar: buildAppBar(),
+      appBar: buildAppBar(title: dashboardProvider.dashboard?.title),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(AppPadding.md),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Credit Limit Details',
-                style: TextStyle(
-                  fontFamily: AppFonts.elzaRoundVariable,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                ),
-              ),
-              SizedBox(height: AppPadding.md),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  buildLimitCard(
-                      iconColor: AppColors.approvedLimitCircle,
-                      iconPath: AppIcons.fileIcon,
-                      value: _approvedLimit,
-                      title: 'Approved Limit'),
-                  SizedBox(
-                    width: AppPadding.sm,
-                  ),
-                  buildLimitCard(
-                      iconColor: AppColors.utilizedLimitCircle,
-                      iconPath: AppIcons.fileTickedIcon,
-                      value: _utilizedLimit,
-                      title: 'Utilized Limit'),
-                ],
-              ),
-              SizedBox(
-                height: AppPadding.sm,
-              ),
-              Row(
-                children: [
-                  buildLimitCard(
-                      iconColor: AppColors.availableLimitCircle,
-                      iconPath: AppIcons.filePenIcon,
-                      value: _availableLimit,
-                      title: 'Available Limit'),
-                ],
+              ...buildCreditLimit(
+                approvedLimit: _approvedLimit,
+                availableLimit: _availableLimit,
+                utilizedLimit: _utilizedLimit,
               ),
               SizedBox(
                 height: AppPadding.sm,
@@ -83,6 +52,54 @@ class _DashboardMobileState extends State<DashboardMobile> {
         ),
       ),
     );
+  }
+
+  List<Widget> buildCreditLimit({
+    required double approvedLimit,
+    required double availableLimit,
+    required double utilizedLimit,
+  }) {
+    return [
+      Text(
+        'Credit Limit Details',
+        style: TextStyle(
+          fontFamily: AppFonts.elzaRoundVariable,
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
+        ),
+      ),
+      SizedBox(height: AppPadding.md),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          buildLimitCard(
+              iconColor: AppColors.approvedLimitCircle,
+              iconPath: AppIcons.fileIcon,
+              value: _approvedLimit,
+              title: 'Approved Limit'),
+          SizedBox(
+            width: AppPadding.sm,
+          ),
+          buildLimitCard(
+              iconColor: AppColors.utilizedLimitCircle,
+              iconPath: AppIcons.fileTickedIcon,
+              value: _utilizedLimit,
+              title: 'Utilized Limit'),
+        ],
+      ),
+      SizedBox(
+        height: AppPadding.sm,
+      ),
+      Row(
+        children: [
+          buildLimitCard(
+              iconColor: AppColors.availableLimitCircle,
+              iconPath: AppIcons.filePenIcon,
+              value: _availableLimit,
+              title: 'Available Limit'),
+        ],
+      ),
+    ];
   }
 
   Row buildFloorPlanUnitsCard() {
@@ -197,7 +214,7 @@ class _DashboardMobileState extends State<DashboardMobile> {
     );
   }
 
-  AppBar buildAppBar() {
+  AppBar buildAppBar({required title}) {
     return AppBar(
       backgroundColor: AppColors.backgroundColor,
       toolbarHeight: 80,
@@ -220,7 +237,7 @@ class _DashboardMobileState extends State<DashboardMobile> {
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              'Dashboard',
+              title,
               style: TextStyle(
                   fontSize: 34,
                   fontFamily: AppFonts.elza,

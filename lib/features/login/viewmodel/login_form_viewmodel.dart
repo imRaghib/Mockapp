@@ -5,6 +5,7 @@ import 'package:mockapp/res/default_urls.dart';
 import 'package:provider/provider.dart';
 import '../../../data/network/secure_storage_service.dart';
 import '../../../utils/routes/routes_names.dart';
+import '../../../view model/dashboard_viewmodel.dart';
 
 class LoginFormProvider extends ChangeNotifier {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -42,14 +43,23 @@ class LoginFormProvider extends ChangeNotifier {
       if (response.statusCode == 200) {
         final body = json.decode(response.body);
         final token = body['token'];
+
         await _secureStorageService.saveToken(token);
 
-        // It removes all routes below the new one (effectively clearing the stack).
-        Navigator.pushNamedAndRemoveUntil(
-          context,
-          RoutesNames.dashboard,
-          (route) => false,
-        );
+        // ⬇️ Call DashboardProvider's loadDashboard() with the token
+        final dashboardProvider =
+            Provider.of<DashboardProvider>(context, listen: false);
+        try {
+          await dashboardProvider.loadDashboard(token);
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            RoutesNames.dashboard,
+            (route) => false,
+          );
+        } catch (e) {
+          errorMessage = 'Failed to load dashboard';
+          notifyListeners();
+        }
       } else {
         errorMessage = json.decode(response.body)['message'] ?? 'Login failed';
         notifyListeners();

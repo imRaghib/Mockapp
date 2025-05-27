@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mockapp/res/font_family.dart';
 import 'package:mockapp/utils/routes/routes.dart';
 import 'package:mockapp/utils/routes/routes_names.dart';
+import 'package:mockapp/view%20model/dashboard_viewmodel.dart';
 import 'package:mockapp/view/title_bar.dart';
 import 'package:provider/provider.dart';
 import 'features/login/viewmodel/login_form_viewmodel.dart';
@@ -17,13 +18,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => DashboardProvider()),
         ChangeNotifierProvider(create: (_) => LoginFormProvider()),
         ChangeNotifierProvider(create: (_) => NotificationViewModel()),
       ],
       child: MaterialApp(
         theme: ThemeData(fontFamily: AppFonts.elza),
         debugShowCheckedModeBanner: false,
-        initialRoute: RoutesNames.dashboard,
+        initialRoute: RoutesNames.login,
         onGenerateRoute: Routes.generateRoutes,
       ),
     );

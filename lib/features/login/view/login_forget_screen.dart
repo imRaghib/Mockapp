@@ -164,7 +164,7 @@ class _GifSuccessBottomSheetState extends State<_GifSuccessBottomSheet>
                 Navigator.pop(context);
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => LoginScreen()),
+                  MaterialPageRoute(builder: (context) => LoginMobile()),
                 );
               },
             ),
