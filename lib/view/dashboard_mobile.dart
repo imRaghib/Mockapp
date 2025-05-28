@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mockapp/model/dashboard_model.dart';
 import 'package:mockapp/res/colors.dart';
 import 'package:mockapp/res/font_family.dart';
 import 'package:mockapp/res/svg_icons.dart';
@@ -16,39 +17,62 @@ class DashboardMobile extends StatefulWidget {
 }
 
 class _DashboardMobileState extends State<DashboardMobile> {
-  final double _approvedLimit = 1000000;
-  final double _availableLimit = 31465.70;
-  final double _utilizedLimit = 968543.30;
-  final int _floorPlanUnits = 23;
-  final String _floorPlanUnitsStatus = 'Registered';
-
   @override
   Widget build(BuildContext context) {
-    final dashboardProvider = Provider.of<DashboardProvider>(context);
-    return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
-      appBar: buildAppBar(title: dashboardProvider.dashboard?.title),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(AppPadding.md),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ...buildCreditLimit(
-                approvedLimit: _approvedLimit,
-                availableLimit: _availableLimit,
-                utilizedLimit: _utilizedLimit,
+    final dashboardProvider = Provider.of<DashboardViewModel>(context);
+    final dashboardData = dashboardProvider.dashboard;
+
+    return dashboardProvider.isLoading
+        ? const Center(child: CircularProgressIndicator())
+        : dashboardProvider.errorMessage != null
+            ? Center(child: Text(dashboardProvider.errorMessage!))
+            : dashboardProvider.dashboard == null
+                ? Center(
+                    child: ElevatedButton(
+                      onPressed: dashboardProvider.fetchDashboard,
+                      child: const Text('Load Dashboard'),
+                    ),
+                  )
+                : Scaffold(
+                    backgroundColor: AppColors.backgroundColor,
+                    appBar: buildAppBar(title: dashboardData!.title),
+                    body: buildDashboard(dashboardData),
+                  );
+  }
+
+  SingleChildScrollView buildDashboard(DashboardModel dashboardData) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(AppPadding.md),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ...buildCreditLimit(
+              approvedLimit: dashboardData.creditLimits.approvedLimit,
+              availableLimit: dashboardData.creditLimits.availableLimit,
+              utilizedLimit: dashboardData.creditLimits.utilizedLimit,
+              title: dashboardData.creditLimits.title,
+              approvedLimitLabel: dashboardData.labels.approvedLimit,
+              availableLimitLabel: dashboardData.labels.availableLimit,
+              utilizedLimitLabel: dashboardData.labels.utilized,
+            ),
+            SizedBox(
+              height: AppPadding.sm,
+            ),
+            ...dashboardData.floorplans.map(
+              (floorplan) => buildFloorPlanUnitsCard(
+                approvedLimit: floorplan.permanentLimit,
+                availableLimit: floorplan.availableBalance,
+                utilizedLimit: floorplan.utilized,
+                floorPlanUnits: floorplan.unitCount,
+                floorPlanUnitsStatus: floorplan.status,
+                floorPlanUnitsLabel: dashboardData.labels.floorplanUnits,
+                permanentLimitLabel: dashboardData.labels.permanentLimit,
+                availableLimitLabel: dashboardData.labels.availableLimit,
+                utilizedLabel: dashboardData.labels.utilized,
               ),
-              SizedBox(
-                height: AppPadding.sm,
-              ),
-              buildFloorPlanUnitsCard(),
-              SizedBox(
-                height: AppPadding.sm,
-              ),
-              buildFloorPlanUnitsCard(),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -58,10 +82,14 @@ class _DashboardMobileState extends State<DashboardMobile> {
     required double approvedLimit,
     required double availableLimit,
     required double utilizedLimit,
+    required String title,
+    required String approvedLimitLabel,
+    required String availableLimitLabel,
+    required String utilizedLimitLabel,
   }) {
     return [
       Text(
-        'Credit Limit Details',
+        title,
         style: TextStyle(
           fontFamily: AppFonts.elzaRoundVariable,
           fontWeight: FontWeight.bold,
@@ -75,16 +103,17 @@ class _DashboardMobileState extends State<DashboardMobile> {
           buildLimitCard(
               iconColor: AppColors.approvedLimitCircle,
               iconPath: AppIcons.fileIcon,
-              value: _approvedLimit,
-              title: 'Approved Limit'),
+              value: approvedLimit,
+              title: approvedLimitLabel),
           SizedBox(
             width: AppPadding.sm,
           ),
           buildLimitCard(
-              iconColor: AppColors.utilizedLimitCircle,
-              iconPath: AppIcons.fileTickedIcon,
-              value: _utilizedLimit,
-              title: 'Utilized Limit'),
+            iconColor: AppColors.utilizedLimitCircle,
+            iconPath: AppIcons.fileTickedIcon,
+            value: utilizedLimit,
+            title: utilizedLimitLabel,
+          ),
         ],
       ),
       SizedBox(
@@ -93,124 +122,139 @@ class _DashboardMobileState extends State<DashboardMobile> {
       Row(
         children: [
           buildLimitCard(
-              iconColor: AppColors.availableLimitCircle,
-              iconPath: AppIcons.filePenIcon,
-              value: _availableLimit,
-              title: 'Available Limit'),
+            iconColor: AppColors.availableLimitCircle,
+            iconPath: AppIcons.filePenIcon,
+            value: availableLimit,
+            title: availableLimitLabel,
+          ),
         ],
       ),
     ];
   }
 
-  Row buildFloorPlanUnitsCard() {
-    return Row(
-      children: [
-        Expanded(
-          child: Card(
-            color: AppColors.cardColor,
-            child: Padding(
-              padding: const EdgeInsets.all(AppPadding.sm),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        '$_floorPlanUnits',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontFamily: AppFonts.elzaRoundVariable,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Color(0x2908B1A2),
-                          borderRadius:
-                              BorderRadius.circular(12), // Rounded corners
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 6),
-                          child: Text(
-                            _floorPlanUnitsStatus,
-                            style: TextStyle(
-                              color: Color(0xFF08B1A2),
-                              fontFamily: AppFonts.elzaRoundVariable,
-                              fontWeight: FontWeight.bold,
-                            ),
+  Padding buildFloorPlanUnitsCard({
+    required double approvedLimit,
+    required double availableLimit,
+    required double utilizedLimit,
+    required int floorPlanUnits,
+    required String floorPlanUnitsStatus,
+    required String floorPlanUnitsLabel,
+    required String permanentLimitLabel,
+    required String availableLimitLabel,
+    required String utilizedLabel,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: AppPadding.md),
+      child: Row(
+        children: [
+          Expanded(
+            child: Card(
+              color: AppColors.cardColor,
+              child: Padding(
+                padding: const EdgeInsets.all(AppPadding.sm),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '$floorPlanUnits',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontFamily: AppFonts.elzaRoundVariable,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                      )
-                    ],
-                  ),
-                  Text(
-                    'Floorplan Units',
-                    style: TextStyle(
-                      color: AppColors.textColor,
-                      fontFamily: AppFonts.elzaRoundVariable,
-                      fontWeight: FontWeight.bold,
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Color(0x2908B1A2),
+                            borderRadius:
+                                BorderRadius.circular(12), // Rounded corners
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 6),
+                            child: Text(
+                              floorPlanUnitsStatus,
+                              style: TextStyle(
+                                color: Color(0xFF08B1A2),
+                                fontFamily: AppFonts.elzaRoundVariable,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
                     ),
-                  ),
-                  Divider(),
-                  SizedBox(
-                    height: AppPadding.xxl,
-                  ),
-                  SliderPopupGradient(
-                    approvedLimit: _approvedLimit,
-                    availableLimit: _availableLimit,
-                    utilizedLimit: _utilizedLimit,
-                  ),
-                  SizedBox(
-                    height: AppPadding.sm,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Permanent Limit',
-                        style: TextStyle(
-                          fontFamily: AppFonts.elzaRoundVariable,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.textColor,
-                        ),
+                    Text(
+                      floorPlanUnitsLabel,
+                      style: TextStyle(
+                        color: AppColors.textColor,
+                        fontFamily: AppFonts.elzaRoundVariable,
+                        fontWeight: FontWeight.bold,
                       ),
-                      Text(
-                        'Available Balance',
-                        style: TextStyle(
-                          fontFamily: AppFonts.elzaRoundVariable,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.textColor,
+                    ),
+                    Divider(),
+                    SizedBox(
+                      height: AppPadding.xxl,
+                    ),
+                    SliderPopupGradient(
+                      approvedLimit: approvedLimit,
+                      availableLimit: availableLimit,
+                      utilizedLimit: utilizedLimit,
+                      utilizedLimitLabel: utilizedLabel,
+                    ),
+                    SizedBox(
+                      height: AppPadding.sm,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          permanentLimitLabel,
+                          style: TextStyle(
+                            fontFamily: AppFonts.elzaRoundVariable,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.textColor,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        '\$${_approvedLimit.toFormattedString()}',
-                        style: TextStyle(
-                          fontFamily: AppFonts.elzaRoundVariable,
-                          fontWeight: FontWeight.bold,
+                        Text(
+                          availableLimitLabel,
+                          style: TextStyle(
+                            fontFamily: AppFonts.elzaRoundVariable,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.textColor,
+                          ),
                         ),
-                      ),
-                      Text(
-                        '\$${_availableLimit.toFormattedString()}',
-                        style: TextStyle(
-                          fontFamily: AppFonts.elzaRoundVariable,
-                          fontWeight: FontWeight.bold,
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '\$${approvedLimit.toFormattedString()}',
+                          style: TextStyle(
+                            fontFamily: AppFonts.elzaRoundVariable,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                        Text(
+                          '\$${availableLimit.toFormattedString()}',
+                          style: TextStyle(
+                            fontFamily: AppFonts.elzaRoundVariable,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -299,12 +343,14 @@ class SliderPopupGradient extends StatefulWidget {
   final double approvedLimit;
   final double availableLimit;
   final double utilizedLimit;
+  final String utilizedLimitLabel;
 
   const SliderPopupGradient(
       {super.key,
       required this.approvedLimit,
       required this.availableLimit,
-      required this.utilizedLimit});
+      required this.utilizedLimit,
+      required this.utilizedLimitLabel});
 
   @override
   State<SliderPopupGradient> createState() => _SliderPopupGradientState();
@@ -320,7 +366,7 @@ class _SliderPopupGradientState extends State<SliderPopupGradient> {
   );
 
   String get popupText =>
-      'Utilized: \$${widget.utilizedLimit.toFormattedString()}';
+      '${widget.utilizedLimitLabel}: \$${widget.utilizedLimit.toFormattedString()}';
 
   double _calculatePopupWidth(String text, TextStyle style) {
     final painter = TextPainter(

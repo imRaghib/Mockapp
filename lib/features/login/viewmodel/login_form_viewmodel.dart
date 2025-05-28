@@ -47,10 +47,9 @@ class LoginFormProvider extends ChangeNotifier {
         await _secureStorageService.saveToken(token);
 
         // ⬇️ Call DashboardProvider's loadDashboard() with the token
-        final dashboardProvider =
-            Provider.of<DashboardProvider>(context, listen: false);
+        // final dashboardProvider = Provider.of<DashboardProvider>(context, listen: false);
         try {
-          await dashboardProvider.loadDashboard(token);
+          // await dashboardProvider.loadDashboard(token);
           Navigator.pushNamedAndRemoveUntil(
             context,
             RoutesNames.dashboard,

@@ -18,14 +18,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => DashboardProvider()),
+        ChangeNotifierProvider(create: (_) => DashboardViewModel()),
         ChangeNotifierProvider(create: (_) => LoginFormProvider()),
         ChangeNotifierProvider(create: (_) => NotificationViewModel()),
       ],
       child: MaterialApp(
         theme: ThemeData(fontFamily: AppFonts.elza),
         debugShowCheckedModeBanner: false,
-        initialRoute: RoutesNames.login,
+        initialRoute: RoutesNames.dashboard,
         onGenerateRoute: Routes.generateRoutes,
       ),
     );

@@ -18,12 +18,7 @@ class Routes {
             final deviceType = getDeviceType(context);
             return deviceType == DeviceType.tablet
                 ? const SplashVideoScreen()
-                : getResponsiveScreen(
-                    context: context,
-                    mobile: OnboardingScreen(),
-                    tabletPortrait: LoginTabletPortrait(),
-                    tabletLandscape: LoginTabletLandscape(),
-                  );
+                : const OnboardingScreen();
           },
         );
       case RoutesNames.login:
@@ -45,9 +40,6 @@ class Routes {
             tabletLandscape: DashboardScreen(),
           ),
         );
-
-      case RoutesNames.onBoarding:
-        return MaterialPageRoute(builder: (_) => OnboardingScreen());
 
       default:
         return MaterialPageRoute(

@@ -1,33 +1,35 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import '../model/dashboard_model.dart';
-import '../services/dashboard_service.dart';
+import '../res/default_urls.dart';
+import '../view/dashboard_mobile.dart';
 
-class DashboardProvider with ChangeNotifier {
-  final DashboardService _service = DashboardService();
+class DashboardViewModel extends ChangeNotifier {
+  DashboardModel? dashboard;
+  bool isLoading = false;
+  String? errorMessage;
 
-  DashboardModel? _dashboard;
-  String? _error;
-  bool _isLoading = false;
-
-  DashboardModel? get dashboard => _dashboard;
-
-  String? get error => _error;
-
-  bool get isLoading => _isLoading;
-
-  Future<void> loadDashboard(String token) async {
-    _isLoading = true;
+  Future<void> fetchDashboard() async {
+    isLoading = true;
+    errorMessage = null;
     notifyListeners();
+
+    final url = Uri.parse('${DefaultURLs.defaultBackendUrl}/api/dashboard');
 
     try {
-      _dashboard = await _service.fetchDashboard(token);
-      _error = null;
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        final jsonBody = json.decode(response.body);
+        dashboard = DashboardModel.fromJson(jsonBody);
+      } else {
+        errorMessage = 'Failed to fetch dashboard: ${response.statusCode}';
+      }
     } catch (e) {
-      _error = e.toString();
-      _dashboard = null;
+      errorMessage = 'Error: $e';
+    } finally {
+      isLoading = false;
+      notifyListeners();
     }
-
-    _isLoading = false;
-    notifyListeners();
   }
 }
