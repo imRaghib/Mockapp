@@ -31,6 +31,17 @@ architecture** and **SOLID principles** for scalable and maintainable code.
 This project adopts the **Model-View-ViewModel (MVVM)** pattern for clear separation of concerns and
 testability.
 
+```
+lib/
+├── services/, constants/, utils/
+├── auth/, vehicles/, dashboard/, ...
+│ ├── model/
+│ ├── view/
+│ ├── viewmodel/
+├── data/
+│ └── api/, repository/
+
+````
 
 ---
 
