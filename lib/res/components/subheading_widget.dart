@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
-class SecondaryText extends StatelessWidget {
-  const SecondaryText({super.key});
+class SubheadingWidget extends StatelessWidget {
+  final String text;
+
+  const SubheadingWidget({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {
-    return const Text(
-      'Please enter your details',
+    return Text(
+      text,
       style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16),
     );
   }

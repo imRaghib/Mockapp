@@ -6,8 +6,8 @@ import 'package:mockapp/res/font_family.dart';
 import 'package:mockapp/res/svg_icons.dart';
 import 'package:mockapp/utils/format_utils.dart';
 import 'package:provider/provider.dart';
-import '../res/default_padding.dart';
-import '../view model/dashboard_viewmodel.dart';
+import '../../res/default_padding.dart';
+import '../../view model/dashboard_viewmodel.dart';
 
 class DashboardMobile extends StatefulWidget {
   const DashboardMobile({super.key});
@@ -19,6 +19,7 @@ class DashboardMobile extends StatefulWidget {
 class _DashboardMobileState extends State<DashboardMobile> {
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     final dashboardProvider = Provider.of<DashboardViewModel>(context);
     final dashboardData = dashboardProvider.dashboard;
 
@@ -34,8 +35,12 @@ class _DashboardMobileState extends State<DashboardMobile> {
                     ),
                   )
                 : Scaffold(
+                    key: _scaffoldKey,
                     backgroundColor: AppColors.backgroundColor,
-                    appBar: buildAppBar(title: dashboardData!.title),
+                    appBar: buildAppBar(
+                        title: dashboardData!.appbarTitle,
+                        scaffoldKey: _scaffoldKey),
+                    drawer: Drawer(),
                     body: buildDashboard(dashboardData),
                   );
   }
@@ -258,9 +263,10 @@ class _DashboardMobileState extends State<DashboardMobile> {
     );
   }
 
-  AppBar buildAppBar({required title}) {
+  AppBar buildAppBar({required title, required scaffoldKey}) {
     return AppBar(
       backgroundColor: AppColors.backgroundColor,
+      automaticallyImplyLeading: false,
       toolbarHeight: 80,
       shadowColor: Colors.black,
       elevation: 1.0,
@@ -271,7 +277,9 @@ class _DashboardMobileState extends State<DashboardMobile> {
           Align(
             alignment: Alignment.centerRight,
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                scaffoldKey.currentState?.openEndDrawer();
+              },
               child: SvgPicture.asset(
                 AppIcons.bellIcon,
                 width: 25,

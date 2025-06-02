@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mockapp/features/login/view/login_mobile.dart';
-import 'package:mockapp/features/login/view/login_tablet_landscape.dart';
-import 'package:mockapp/features/login/view/login_tablet_portrait.dart';
 import 'package:mockapp/utils/responsive_helper.dart';
-import 'package:mockapp/view/dashboard_mobile.dart';
-import '../../features/onboarding/view/onboarding_screen.dart';
+import 'package:mockapp/view/mobile%20view/dashboard_mobile.dart';
+import '../../view/login_tablet_landscape.dart';
+import '../../view/login_tablet_portrait.dart';
+import '../../view/mobile view/login_mobile.dart';
+import '../../view/onboarding_screen.dart';
 import '../../view/dashboard_tablet_landscape.dart';
 import '../../view/splash_screen.dart';
 import 'routes_names.dart';

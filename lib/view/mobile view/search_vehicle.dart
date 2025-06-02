@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../res/components/CustomGradientButton.dart';
 import '../../res/components/customOutlineButton.dart';
-import 'finance_request_mobile.dart';
+import '../../view/mobile view/finance_request_mobile.dart';
 
 class SearchVehicle extends StatefulWidget {
   final File? imageFile;

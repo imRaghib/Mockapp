@@ -3,8 +3,8 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:crop_your_image/crop_your_image.dart';
-import 'package:mockapp/features/finance%20request/search_vehicle.dart';
 import 'package:mockapp/res/components/customOutlineButton.dart';
+import 'package:mockapp/view/mobile%20view/search_vehicle.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../res/components/CustomGradientButton.dart';
 

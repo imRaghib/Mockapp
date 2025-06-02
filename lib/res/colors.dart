@@ -25,4 +25,7 @@ class AppColors {
 
   static const Color textColor = Color(0xFF697380);
   static const Color cardColor = Colors.white;
+
+  // Login Screen
+  static const Color dividerColor = Color.fromRGBO(244, 245, 246, 1);
 }

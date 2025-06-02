@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mockapp/features/finance%20request/scan_vehicle_plate.dart';
-
+import 'package:mockapp/view/mobile%20view/scan_vehicle_plate.dart';
 import '../../res/colors.dart';
 import '../../res/components/CustomGradientButton.dart';
 import 'image_service.dart';

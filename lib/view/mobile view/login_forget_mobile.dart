@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gif/gif.dart';
-import 'package:mockapp/features/login/view/login_mobile.dart';
-import 'package:mockapp/features/login/view/login_screen.dart';
 import 'package:mockapp/res/colors.dart';
 import 'package:mockapp/res/components/CustomGradientButton.dart';
-import 'package:mockapp/res/components/login_screen_logo.dart';
-import 'package:mockapp/res/components/login_secondary_text.dart';
+import 'package:mockapp/res/components/logo_widget.dart';
+import 'package:mockapp/res/components/subheading_widget.dart';
+
+import '../../res/components/footer_widget.dart';
+import '../../res/components/heading_widget.dart';
+import 'login_mobile.dart';
 
 class LoginForgetScreen extends StatelessWidget {
   const LoginForgetScreen({super.key});
@@ -26,9 +28,9 @@ class LoginForgetScreen extends StatelessWidget {
           children: [
             Column(
               children: [
-                LogoWidget(height: null),
-                BuildBoldText(text: 'Forgot Password'),
-                SecondaryText(),
+                LogoWidget(),
+                HeadingWidget(text: 'Forgot Password'),
+                SubheadingWidget(text: 'Please enter your details'),
                 SizedBox(height: 40),
                 TextFormField(
                   //   controller: null,
@@ -82,7 +84,7 @@ class LoginForgetScreen extends StatelessWidget {
                     );
                   },
                 ),
-                buildFooter(),
+                FooterWidget(),
               ],
             ),
           ],

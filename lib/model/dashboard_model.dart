@@ -1,11 +1,11 @@
 class DashboardModel {
-  final String title;
+  final String appbarTitle;
   final Labels labels;
   final CreditLimits creditLimits;
   final List<Floorplan> floorplans;
 
   DashboardModel({
-    required this.title,
+    required this.appbarTitle,
     required this.labels,
     required this.creditLimits,
     required this.floorplans,
@@ -13,7 +13,7 @@ class DashboardModel {
 
   factory DashboardModel.fromJson(Map<String, dynamic> json) {
     return DashboardModel(
-      title: json['title'],
+      appbarTitle: json['appbarTitle'],
       labels: Labels.fromJson(json['labels']),
       creditLimits: CreditLimits.fromJson(json['creditLimits']),
       floorplans: List<Floorplan>.from(

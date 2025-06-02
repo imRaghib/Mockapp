@@ -1,8 +1,62 @@
 import 'package:flutter/material.dart';
-import 'package:mockapp/features/login/view/login_forget_screen.dart';
+import 'package:mockapp/res/components/logo_widget.dart';
+import 'package:mockapp/res/components/subheading_widget.dart';
 import 'package:provider/provider.dart';
-import '../../features/login/viewmodel/login_form_viewmodel.dart';
-import '../colors.dart';
+import '../../res/colors.dart';
+import '../../res/components/CustomGradientButton.dart';
+import '../../res/components/footer_widget.dart';
+import '../../res/components/heading_widget.dart';
+import '../../res/components/face_id_widget.dart';
+import '../../res/default_padding.dart';
+import '../../view model/login_viewmodel.dart';
+import 'login_forget_mobile.dart';
+
+class LoginMobile extends StatelessWidget {
+  const LoginMobile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.backgroundColor,
+      body: Padding(
+        padding: const EdgeInsets.all(AppPadding.md),
+        child: Column(
+          children: [
+            Expanded(
+              child: Column(
+                children: [
+                  Spacer(),
+                  LogoWidget(),
+                  SizedBox(height: AppPadding.md),
+                  HeadingWidget(text: 'Welcome Back'),
+                  SubheadingWidget(text: 'Please enter your details'),
+                  SizedBox(height: AppPadding.lg),
+                  LoginForm(),
+                  FaceIdWidget(title: 'Face ID'),
+                  Spacer(),
+                  CustomGradientButton(
+                    title: "Login",
+                    onPressed: () {
+                      // Provider.of<LoginFormProvider>(
+                      //   context,
+                      //   listen: false,
+                      // ).login(context);
+                      // final res = Provider.of<LoginFormProvider>(
+                      //   context,
+                      //   listen: false,
+                      // ).handleLogin(context);
+                    },
+                  ),
+                  FooterWidget(),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 
 class LoginForm extends StatelessWidget {
   const LoginForm({super.key});
@@ -80,6 +134,7 @@ class LoginForm extends StatelessWidget {
                 .toList(),
             decoration: InputDecoration(
               labelText: 'Subtenant',
+              hintText: 'Please Select',
               labelStyle: TextStyle(color: kGreyColor),
               enabledBorder: textFieldBorderStyle,
               focusedBorder: textFieldBorderStyle,
@@ -97,6 +152,30 @@ class LoginForm extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class TextFieldWidget extends StatelessWidget {
+  final LoginFormProvider loginForm;
+
+  const TextFieldWidget({super.key, required this.loginForm});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: loginForm.usernameController,
+      cursorColor: kGreyColor,
+      style: TextStyle(color: kGreyColor),
+      decoration: InputDecoration(
+        labelText: 'Enter Username',
+        labelStyle: TextStyle(color: kGreyColor),
+        enabledBorder: textFieldBorderStyle,
+        focusedBorder: textFieldBorderStyle,
+        border: textFieldBorderStyle,
+      ),
+      validator: (value) =>
+          value == null || value.isEmpty ? 'Invalid username' : null,
     );
   }
 }

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:mockapp/features/login/view/login_mobile.dart';
 import 'package:mockapp/res/components/CustomGradientButton.dart';
+import 'package:mockapp/res/components/footer_widget.dart';
 import 'package:provider/provider.dart';
-import '../../../res/components/loginForm.dart';
-import '../../../res/components/login_face_Id.dart';
-import '../../../res/components/login_tab_footer.dart';
-import '../viewmodel/login_form_viewmodel.dart';
+import '../../../res/components/face_id_widget.dart';
+import '../res/components/heading_widget.dart';
+import '../view model/login_viewmodel.dart';
+import 'mobile view/login_mobile.dart';
 
 class LoginTabletPortrait extends StatefulWidget {
   const LoginTabletPortrait({super.key});
@@ -35,7 +35,7 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
                   children: [
                     Column(
                       children: [
-                        BuildBoldText(text: 'Welcome Back'),
+                        HeadingWidget(text: 'Welcome Back'),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: const Text(
@@ -58,14 +58,14 @@ class _LoginTabletPortraitState extends State<LoginTabletPortrait> {
                             ).handleLogin(context);
                           },
                         ),
-                        FaceIdWidget(),
+                        FaceIdWidget(title: 'Face ID'),
                       ],
                     ),
                   ],
                 ),
               ),
             ),
-            Footer(),
+            FooterWidget(),
           ],
         ),
       ),

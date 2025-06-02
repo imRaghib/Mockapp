@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mockapp/features/login/view/login_mobile.dart';
 import 'package:mockapp/res/components/CustomGradientButton.dart';
 import 'package:video_player/video_player.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+import 'mobile view/login_mobile.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
